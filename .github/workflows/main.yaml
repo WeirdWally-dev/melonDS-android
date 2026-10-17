@@ -11,6 +11,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Needed to move the nightly-release tag and update the GitHub release
+permissions:
+  contents: write
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -45,7 +49,17 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           sed -i -e 's/\(versionName = "\)\(.*\)\("\)/\1\2 ('"$COMMIT"')\3/g' buildSrc/src/main/kotlin/AppConfig.kt
-          echo "$MELONDS_KEYSTORE" | base64 -d > ${{runner.workspace}}/keystore.jks
+          if [ -n "$MELONDS_KEYSTORE" ]; then
+            echo "$MELONDS_KEYSTORE" | base64 -d > ${{runner.workspace}}/keystore.jks
+          else
+            # No signing key configured in this fork's secrets: sign with a throwaway key so the APK is still
+            # installable. Each build gets a different key, so updating requires uninstalling first. Add the
+            # MELONDS_KEYSTORE (base64 .jks with alias "melonds") and MELONDS_KEYSTORE_PASSWORD secrets for stable signing.
+            echo "::warning::MELONDS_KEYSTORE secret not set, signing with a temporary key"
+            MELONDS_KEYSTORE_PASSWORD=$(openssl rand -hex 16)
+            keytool -genkeypair -keystore ${{runner.workspace}}/keystore.jks -alias melonds -keyalg RSA -keysize 2048 \
+              -validity 10000 -storepass "$MELONDS_KEYSTORE_PASSWORD" -keypass "$MELONDS_KEYSTORE_PASSWORD" -dname "CN=melonDS LAN fork"
+          fi
           echo "MELONDS_KEYSTORE=${{runner.workspace}}/keystore.jks" >> local.properties
           echo "MELONDS_KEYSTORE_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
           echo "MELONDS_KEY_ALIAS=melonds" >> local.properties

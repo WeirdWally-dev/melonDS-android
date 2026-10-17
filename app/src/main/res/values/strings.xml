@@ -651,4 +651,41 @@
     <string name="multiplayer_error_discovery_failed">Discovery failed</string>
     <string name="multiplayer_error_lan_init_failed">Failed to initialize LAN session</string>
     <string name="multiplayer_error_permission_denied">Required permissions not granted</string>
+
+    <!-- LAN multiplayer -->
+    <string name="lan_multiplayer">Local multiplayer</string>
+    <string name="lan_player_name">Your name</string>
+    <string name="lan_host_game">Host a game</string>
+    <string name="lan_max_players">Max players</string>
+    <string name="lan_host">Host</string>
+    <string name="lan_join_game">Join a game</string>
+    <string name="lan_join">Join</string>
+    <string name="lan_searching">Looking for games on this network…</string>
+    <string name="lan_discovery_unavailable">Can\'t search for games right now. You can still join by IP address below.</string>
+    <string name="lan_join_by_ip_description">Host not showing up? Enter the IP address shown on the host\'s screen.</string>
+    <string name="lan_host_ip_address">Host IP address</string>
+    <string name="lan_same_network_hint">All players need to be on the same Wi-Fi network (or connected to the host\'s hotspot). A fast, nearby router works best: local wireless is very sensitive to lag.</string>
+    <string name="lan_player_count">%1$d/%2$d</string>
+    <string name="lan_starting_host">Starting session…</string>
+    <string name="lan_connecting_to">Connecting to %1$s…</string>
+    <string name="lan_hosting">You\'re hosting</string>
+    <string name="lan_connected">Connected to session</string>
+    <string name="lan_your_ip">Your IP address: %1$s</string>
+    <string name="lan_host_waiting_hint">Other players will find this session automatically, or can join with the IP address above.</string>
+    <string name="lan_host_lost">Lost connection to the host. Leave the session and join again.</string>
+    <string name="lan_players">Players (%1$d/%2$d)</string>
+    <string name="lan_player_you">%1$s (you)</string>
+    <string name="lan_status_host">Host</string>
+    <string name="lan_status_connected">Connected</string>
+    <string name="lan_status_connecting">Connecting</string>
+    <string name="lan_status_disconnected">Connection lost</string>
+    <string name="lan_ping">%1$d ms</string>
+    <string name="lan_next_steps">Next</string>
+    <string name="lan_next_steps_description">Once everyone has joined, each player starts the same game from the ROM list and opens its local wireless mode (DS Download Play also works). The session stays connected while you play.</string>
+    <string name="lan_choose_game">Choose game</string>
+    <string name="lan_leave_session">Leave session</string>
+    <string name="lan_session_active_banner">Local multiplayer: %1$d player(s) connected</string>
+    <string name="lan_error_host_failed">Couldn\'t start the session. Make sure you\'re connected to Wi-Fi and no other app is using port 7064.</string>
+    <string name="lan_error_connect_failed">Couldn\'t connect to the host. Check that both devices are on the same network and the host is still waiting for players.</string>
+    <string name="lan_error_discovery_failed">Couldn\'t search for games on this network.</string>
 </resources>

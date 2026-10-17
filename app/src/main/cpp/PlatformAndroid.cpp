@@ -35,6 +35,7 @@
 #include "MelonInstance.h"
 #include "MelonLog.h"
 #include "net/MPInterface.h"
+#include "LanSession.h"
 
 using namespace melonDS;
 
@@ -503,12 +504,15 @@ namespace Platform
 
     void MP_Begin(void* userdata)
     {
+        // Usually called from the frame loop (lock already held), but resets and shutdowns happen on other threads
+        std::lock_guard<std::recursive_mutex> mpLock(LanSession::mpMutex());
         auto emulatorInstance = (MelonDSAndroid::MelonInstance*) userdata;
         MPInterface::Get().Begin(emulatorInstance->getInstanceId());
     }
 
     void MP_End(void* userdata)
     {
+        std::lock_guard<std::recursive_mutex> mpLock(LanSession::mpMutex());
         auto emulatorInstance = (MelonDSAndroid::MelonInstance*) userdata;
         MPInterface::Get().End(emulatorInstance->getInstanceId());
     }

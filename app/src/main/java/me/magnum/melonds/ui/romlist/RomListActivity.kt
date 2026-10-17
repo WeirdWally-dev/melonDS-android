@@ -31,7 +31,10 @@ import me.magnum.melonds.domain.model.rom.Rom
 import me.magnum.melonds.parcelables.RomParcelable
 import me.magnum.melonds.ui.common.melonTextButtonColors
 import me.magnum.melonds.ui.common.rom.EmulatorLaunchValidatorDelegate
+import me.magnum.melonds.domain.model.lan.LanSessionState
+import me.magnum.melonds.impl.lan.LanSessionManager
 import me.magnum.melonds.ui.dsiwaremanager.DSiWareManagerActivity
+import me.magnum.melonds.ui.lan.LanActivity
 import me.magnum.melonds.ui.emulator.EmulatorActivity
 import me.magnum.melonds.ui.romdetails.RomDetailsActivity
 import me.magnum.melonds.ui.romlist.ui.DownloadProgressDialog
@@ -40,11 +43,14 @@ import me.magnum.melonds.ui.romlist.ui.ProdUpdateAvailableDialog
 import me.magnum.melonds.ui.romlist.ui.RomListScreen
 import me.magnum.melonds.ui.settings.SettingsActivity
 import me.magnum.melonds.ui.theme.MelonTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RomListActivity : AppCompatActivity() {
 
     private val viewModel: RomListViewModel by viewModels()
+
+    @Inject lateinit var lanSessionManager: LanSessionManager
     private val updatesViewModel: UpdatesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +78,7 @@ class RomListActivity : AppCompatActivity() {
             val roms by viewModel.roms.collectAsStateWithLifecycle()
             val romScanningStatus by viewModel.romScanningStatus.collectAsStateWithLifecycle(initialValue = RomScanningStatus.NOT_SCANNING)
             val hasSearchDirectories by viewModel.hasSearchDirectories.collectAsStateWithLifecycle(initialValue = true)
+            val lanSessionState by lanSessionManager.state.collectAsStateWithLifecycle()
 
             var currentUpdate by remember { mutableStateOf<AppUpdate?>(null) }
             var downloadProgress by remember { mutableStateOf<DownloadProgress?>(null) }
@@ -136,6 +143,11 @@ class RomListActivity : AppCompatActivity() {
                         val intent = Intent(this@RomListActivity, DSiWareManagerActivity::class.java)
                         startActivity(intent)
                     },
+                    onNavigateToLanMultiplayer = {
+                        val intent = Intent(this@RomListActivity, LanActivity::class.java)
+                        startActivity(intent)
+                    },
+                    lanPlayerCount = (lanSessionState as? LanSessionState.InSession)?.players?.size,
                     retrieveRomIcon = { rom ->
                         viewModel.getRomIcon(rom)
                     },

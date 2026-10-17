@@ -20,6 +20,7 @@
 #include "RewindManager.h"
 #include "ROMManager.h"
 #include "MPInterface.h"
+#include "LanSession.h"
 #include "AndroidCameraHandler.h"
 #include "renderer/ScreenshotRenderer.h"
 #include "renderer/FrameQueue.h"
@@ -206,7 +207,11 @@ namespace MelonDSAndroid
 
     u32 loop()
     {
+        // Hold the MP lock for the whole frame: the core talks to the MP interface from inside runFrame(), and the LAN
+        // lobby pump thread or a session change must not touch it at the same time
+        std::lock_guard<std::recursive_mutex> mpLock(LanSession::mpMutex());
         MPInterface::Get().Process();
+        LanSession::markFrameProcessed();
         return instance->runFrame();
     }
 

@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- LAN multiplayer: receive host discovery broadcasts, and keep Wi-Fi out of power saving during a session -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -74,6 +77,13 @@
             android:name=".ui.dsiwaremanager.DSiWareManagerActivity"
             android:label="@string/dsiware_manager"
             android:parentActivityName=".ui.romlist.RomListActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.lan.LanActivity"
+            android:label="@string/lan_multiplayer"
+            android:parentActivityName=".ui.romlist.RomListActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false">
         </activity>
         <activity

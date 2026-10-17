@@ -34,6 +34,7 @@ add_library(
         ${ANDROID-CPP}/EmulatorArgsBuilder.cpp
         ${ANDROID-CPP}/EmulatorMessageQueueJNI.cpp
         ${ANDROID-CPP}/JniEnvHandler.cpp
+        ${ANDROID-CPP}/LanSession.cpp
         ${ANDROID-CPP}/MelonDS.cpp
         ${ANDROID-CPP}/MelonDSAndroidCameraHandler.cpp
         ${ANDROID-CPP}/MelonDSAndroidConfiguration.cpp
@@ -42,6 +43,7 @@ add_library(
         ${ANDROID-CPP}/MelonDSAudio.cpp
         ${ANDROID-CPP}/MelonDSNandJNI.cpp
         ${ANDROID-CPP}/MelonInstance.cpp
+        ${ANDROID-CPP}/MelonLanJNI.cpp
         ${ANDROID-CPP}/MicInputOboeCallback.cpp
         ${ANDROID-CPP}/NativeFrontBufferRenderer.cpp
         ${ANDROID-CPP}/NativeGlContext.cpp

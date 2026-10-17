@@ -4,6 +4,13 @@ import android.net.Uri
 import android.view.KeyEvent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.filled.Wifi
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -79,6 +86,8 @@ fun RomListScreen(
     onDirectorySelected: (Uri) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDsiWareManager: () -> Unit,
+    onNavigateToLanMultiplayer: () -> Unit,
+    lanPlayerCount: Int?,
     retrieveRomIcon: suspend (Rom) -> RomIcon,
 ) {
     var isSearchActive by rememberSaveable { mutableStateOf(false) }
@@ -104,30 +113,39 @@ fun RomListScreen(
             }
         },
         topBar = {
-            Box(Modifier.background(MaterialTheme.colors.primaryVariant).statusBarsPadding()) {
-                if (isSearchActive) {
-                    SearchTopBar(
-                        query = searchQuery,
-                        onQueryChange = { query ->
-                            searchQuery = query
-                            onSearchQueryChange(query)
-                        },
-                        onClose = {
-                            isSearchActive = false
-                            searchQuery = ""
-                            onSearchQueryChange(null)
-                        },
-                    )
-                } else {
-                    RomListTopBar(
-                        showOverflowMenu = showOverflowMenu,
-                        onOverflowMenuChange = { showOverflowMenu = it },
-                        onSearchClick = { isSearchActive = true },
-                        onSortChange = onSortChange,
-                        onFirmwareBoot = onFirmwareBoot,
-                        onNavigateToDsiWareManager = onNavigateToDsiWareManager,
-                        onRefresh = onRefresh,
-                        onNavigateToSettings = onNavigateToSettings,
+            Column {
+                Box(Modifier.background(MaterialTheme.colors.primaryVariant).statusBarsPadding()) {
+                    if (isSearchActive) {
+                        SearchTopBar(
+                            query = searchQuery,
+                            onQueryChange = { query ->
+                                searchQuery = query
+                                onSearchQueryChange(query)
+                            },
+                            onClose = {
+                                isSearchActive = false
+                                searchQuery = ""
+                                onSearchQueryChange(null)
+                            },
+                        )
+                    } else {
+                        RomListTopBar(
+                            showOverflowMenu = showOverflowMenu,
+                            onOverflowMenuChange = { showOverflowMenu = it },
+                            onSearchClick = { isSearchActive = true },
+                            onSortChange = onSortChange,
+                            onFirmwareBoot = onFirmwareBoot,
+                            onNavigateToDsiWareManager = onNavigateToDsiWareManager,
+                            onNavigateToLanMultiplayer = onNavigateToLanMultiplayer,
+                            onRefresh = onRefresh,
+                            onNavigateToSettings = onNavigateToSettings,
+                        )
+                    }
+                }
+                if (lanPlayerCount != null) {
+                    LanSessionBanner(
+                        playerCount = lanPlayerCount,
+                        onClick = onNavigateToLanMultiplayer,
                     )
                 }
             }
@@ -168,6 +186,7 @@ private fun RomListTopBar(
     onSortChange: (SortingMode) -> Unit,
     onFirmwareBoot: (ConsoleType) -> Unit,
     onNavigateToDsiWareManager: () -> Unit,
+    onNavigateToLanMultiplayer: () -> Unit,
     onRefresh: () -> Unit,
     onNavigateToSettings: () -> Unit,
 ) {
@@ -316,6 +335,12 @@ private fun RomListTopBar(
                             }
                             DropdownMenuItem(onClick = {
                                 onOverflowMenuChange(false)
+                                onNavigateToLanMultiplayer()
+                            }) {
+                                Text(stringResource(R.string.lan_multiplayer))
+                            }
+                            DropdownMenuItem(onClick = {
+                                onOverflowMenuChange(false)
                                 onRefresh()
                             }) {
                                 Text(stringResource(R.string.action_refresh_rom_list))
@@ -384,3 +409,32 @@ private fun SearchTopBar(
         )
     }
 }
+
+@Composable
+private fun LanSessionBanner(
+    playerCount: Int,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.secondary)
+            .clickable(onClick = onClick)
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = Icons.Default.Wifi,
+            contentDescription = null,
+            tint = MaterialTheme.colors.onSecondary,
+        )
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = stringResource(R.string.lan_session_active_banner, playerCount),
+            color = MaterialTheme.colors.onSecondary,
+            style = MaterialTheme.typography.body2,
+        )
+    }
+}
+

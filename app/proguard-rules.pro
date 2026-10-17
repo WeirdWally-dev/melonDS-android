@@ -56,3 +56,7 @@
 -keepattributes Signature
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
+
+# LAN multiplayer models are instantiated from native code
+-keep class me.magnum.melonds.domain.model.lan.LanDiscoveredSession { *; }
+-keep class me.magnum.melonds.domain.model.lan.LanPlayer { *; }

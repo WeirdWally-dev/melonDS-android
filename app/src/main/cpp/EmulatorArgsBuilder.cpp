@@ -4,6 +4,8 @@
 #include "Args.h"
 #include "Configuration.h"
 #include "EmulatorArgsBuilder.h"
+#include "LanSession.h"
+#include <random>
 #include "FreeBIOS.h"
 #include "Platform.h"
 #include "PlatformAndroid.h"
@@ -161,6 +163,18 @@ void customizeFirmware(const EmulatorConfiguration& configuration, Firmware& fir
     else if (isInternalFirmware)
     {
         replaceMac = parseMacAddress(firmwareConfig.macAddress, &configuredMac);
+    }
+
+    if (!replaceMac && LanSession::isLanActive())
+    {
+        // In a LAN session every console must have a distinct MAC address, otherwise games fail to see each other.
+        // Users often copy the same firmware dump to all their devices, so randomize it for this run.
+        std::random_device randomDevice;
+        configuredMac = mac;
+        configuredMac[3] = randomDevice() % 256;
+        configuredMac[4] = randomDevice() % 256;
+        configuredMac[5] = randomDevice() % 256;
+        replaceMac = true;
     }
 
     if (replaceMac)
