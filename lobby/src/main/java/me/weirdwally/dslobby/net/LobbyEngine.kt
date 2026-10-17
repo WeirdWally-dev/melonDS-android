@@ -193,7 +193,7 @@ class LobbyEngine(context: Context) {
     }
 
     fun updateProfile(profile: Profile) = onSerial {
-        this.profile = profile
+        this@LobbyEngine.profile = profile
         sendBeacon()
         publish()
     }
