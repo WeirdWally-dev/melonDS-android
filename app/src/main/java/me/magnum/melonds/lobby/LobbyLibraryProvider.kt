@@ -63,7 +63,7 @@ class LobbyLibraryProvider : ContentProvider() {
         val cursor = MatrixCursor(arrayOf(LobbyContract.COLUMN_ID, LobbyContract.COLUMN_NAME, LobbyContract.COLUMN_GAME_CODE, LobbyContract.COLUMN_ROM_URI))
         loadRoms().forEach { rom ->
             val gameCode = getGameCode(rom) ?: return@forEach
-            cursor.addRow(arrayOf(romId(rom), rom.name, gameCode, rom.uri.toString()))
+            cursor.addRow(arrayOf<Any>(romId(rom), rom.name, gameCode, rom.uri.toString()))
         }
         return cursor
     }
