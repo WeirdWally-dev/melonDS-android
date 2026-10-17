@@ -49,7 +49,8 @@ jobs:
           echo "MELONDS_KEY_ALIAS=melonds" >> local.properties
           echo "MELONDS_KEY_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
           chmod +x ./gradlew
-          ./gradlew :app:assembleGitHubProdRelease
+          ./gradlew :app:assembleGitHubProdRelease :lobby:assembleRelease
+          cp lobby/build/outputs/apk/release/lobby-release.apk DS-Lobby.apk
 
       - name: Get Tag and Version
         id: release_params
@@ -66,7 +67,7 @@ jobs:
           tag: ${{ steps.release_params.outputs.TAG }}
           name: ${{ steps.release_params.outputs.VERSION }}
           bodyFile: ./.github/changelog/gitHub.md
-          artifacts: app/build/outputs/apk/gitHubProd/release/app-gitHub-prod-release.apk
+          artifacts: app/build/outputs/apk/gitHubProd/release/app-gitHub-prod-release.apk,DS-Lobby.apk
           artifactContentType: application/vnd.android.package-archive
 
       - name: Upload APK, Mapping and Debug Symbols
@@ -75,5 +76,6 @@ jobs:
           name: github-release
           path: |
             app/build/outputs/apk/gitHubProd/release/app-gitHub-prod-release.apk
+            DS-Lobby.apk
             app/build/outputs/mapping/gitHubProdRelease/mapping.txt
             app/build/outputs/native-debug-symbols/gitHubProdRelease/native-debug-symbols.zip

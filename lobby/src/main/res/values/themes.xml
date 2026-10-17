@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LobbyTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/lobby_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <color name="lobby_background">#FFD9DEE3</color>
+    <color name="launcher_background">#FFF2F4F6</color>
+    <color name="launcher_body">#FF6D7884</color>
+    <color name="launcher_screen">#FF1E2A36</color>
+    <color name="launcher_glow">#FF30BAF3</color>
+</resources>

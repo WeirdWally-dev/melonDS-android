@@ -86,6 +86,21 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="false">
         </activity>
+        <!-- DS Lobby companion app: connects the LAN session the lobby set up, then boots the game -->
+        <activity
+            android:name=".ui.lan.LanLaunchActivity"
+            android:label="@string/lan_multiplayer"
+            android:excludeFromRecents="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="me.magnum.melonds.action.LAN_LAUNCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name=".lobby.LobbyLibraryProvider"
+            android:authorities="${applicationId}.lobbylibrary"
+            android:exported="true" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"

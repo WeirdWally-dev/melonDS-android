@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":app")
+include(":lobby")
 include(":common")
 include(":masterswitch")
 include(":rcheevos-api")

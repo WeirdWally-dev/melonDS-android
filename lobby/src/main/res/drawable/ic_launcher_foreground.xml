@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A two-screen handheld sending a signal -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- top half -->
+    <path android:fillColor="@color/launcher_body"
+        android:pathData="M36,30h32a4,4 0,0 1,4 4v18h-40v-18a4,4 0,0 1,4 -4z" />
+    <path android:fillColor="@color/launcher_screen"
+        android:pathData="M40,34h24v15h-24z" />
+    <!-- hinge -->
+    <path android:fillColor="@color/launcher_screen"
+        android:pathData="M32,52h40v3h-40z" />
+    <!-- bottom half -->
+    <path android:fillColor="@color/launcher_body"
+        android:pathData="M32,55h40v18a4,4 0,0 1,-4 4h-32a4,4 0,0 1,-4 -4z" />
+    <path android:fillColor="@color/launcher_screen"
+        android:pathData="M43,58h18v14h-18z" />
+    <path android:fillColor="@color/launcher_screen"
+        android:pathData="M34.5,62h6v2h-2v2h-2v-2h-2z" />
+    <path android:fillColor="@color/launcher_screen"
+        android:pathData="M66,63m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+    <!-- signal -->
+    <path android:strokeColor="@color/launcher_glow" android:strokeWidth="2.5" android:strokeLineCap="round"
+        android:pathData="M74,28a6,6 0,0 1,6 6" />
+    <path android:strokeColor="@color/launcher_glow" android:strokeWidth="2.5" android:strokeLineCap="round"
+        android:pathData="M74,22a12,12 0,0 1,12 12" />
+</vector>

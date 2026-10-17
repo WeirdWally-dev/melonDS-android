@@ -144,6 +144,15 @@ class LanSessionManager @Inject constructor(
         _state.value = LanSessionState.Idle
     }
 
+    /**
+     * Leaves the session (or stops browsing) without waiting, for callers that are going away.
+     */
+    fun leaveInBackground() {
+        scope.launch {
+            if (_state.value is LanSessionState.Browsing) stopBrowsing() else leave()
+        }
+    }
+
     private fun startPolling() {
         pollJob?.cancel()
         pollJob = scope.launch {

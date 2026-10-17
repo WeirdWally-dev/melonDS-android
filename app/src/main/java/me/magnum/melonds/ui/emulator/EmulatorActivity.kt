@@ -115,6 +115,8 @@ class EmulatorActivity : AppCompatActivity() {
         const val KEY_ROM = "rom"
         const val KEY_PATH = "PATH"
         const val KEY_URI = "uri"
+        /** Set by the DS Lobby launch flow: reboot the ROM even if it's the one already running */
+        const val KEY_LAN_FRESH_BOOT = "lan_fresh_boot"
         const val KEY_BOOT_FIRMWARE_CONSOLE = "boot_firmware_console"
         const val KEY_BOOT_FIRMWARE_ONLY = "boot_firmware_only"
 
@@ -692,7 +694,7 @@ class EmulatorActivity : AppCompatActivity() {
         val currentState = viewModel.emulatorState.value
         if (currentState.isRunning()) {
             // If the same ROM/firmware is already running, ignore the intent
-            if (launchArgs.matchesRunningState(currentState)) {
+            if (launchArgs.matchesRunningState(currentState) && !intent.getBooleanExtra(KEY_LAN_FRESH_BOOT, false)) {
                 return
             }
 
