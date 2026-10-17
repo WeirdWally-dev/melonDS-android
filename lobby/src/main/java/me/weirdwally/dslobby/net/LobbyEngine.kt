@@ -122,6 +122,7 @@ class LobbyEngine(context: Context) {
     private val members = linkedMapOf<String, MemberLink>()
     private var roomState: RoomState = RoomState.None
     private var startingSince = 0L
+    private var networkError = false
     private var nextSeq = SystemClock.elapsedRealtime()
     private var broadcastTargets: List<InetAddress> = emptyList()
     private var broadcastTargetsAge = 0L
@@ -155,6 +156,7 @@ class LobbyEngine(context: Context) {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Couldn't open the lobby port", e)
+            networkError = true
             _state.value = LobbyState(isRunning = true, networkError = true)
             return
         }
@@ -186,6 +188,7 @@ class LobbyEngine(context: Context) {
         peers.clear()
         members.clear()
         roomState = RoomState.None
+        networkError = false
         _state.value = LobbyState()
     }
 
@@ -517,7 +520,7 @@ class LobbyEngine(context: Context) {
 
         _state.value = LobbyState(
             isRunning = true,
-            networkError = false,
+            networkError = networkError,
             localAddress = findLocalAddress(),
             players = peers.values
                 .map { NearbyPlayer(it.id, it.name, it.colour, it.address.hostAddress.orEmpty(), it.room, hostOf[it.id]) }

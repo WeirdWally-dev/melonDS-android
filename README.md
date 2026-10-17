@@ -7,8 +7,23 @@ Android port of [melonDS](https://melonds.kuribo64.net/), a DS and DSi emulator.
 |---|---|---|---|
 |![Screenshot 1](./.github/images/screenshot_mobile0.png)|![Screenshot 2](./.github/images/screenshot_mobile1.png)|![Screenshot 3](./.github/images/screenshot_mobile2.png)|![Screenshot 4](./.github/images/screenshot_mobile3.png)|
 
+# Local multiplayer (this fork)
+Phones on the same Wi-Fi (or one phone's hotspot) can play local wireless games together.
+
+**DS Lobby** (`DS-Lobby.apk` on the releases page) makes it feel like two DSes finding each other:
+1. Install melonDS from this fork and DS Lobby on every phone. Add your ROM folder in melonDS as usual.
+2. Open DS Lobby once and pick a name and favourite colour. That's all the setup.
+3. Everyone opens DS Lobby. Nearby players appear on their own.
+4. One player taps **Open a room** and picks a game. Everyone else taps **Join** on that room.
+5. The host taps **Start**. Every phone opens melonDS straight into the game, already connected.
+   Go to the game's wireless mode (or DS Download Play) and you'll find each other.
+
+Your lobby name and colour become your in-game DS profile (when using melonDS's built-in firmware).
+Each player needs their own copy of the game; a different region usually works.
+
+Prefer doing it by hand? The ROM list menu also has **Local multiplayer**, where you can host or join by IP.
+
 # Missing Features
-*  Local Multiplayer
 *  DSi SD card support
 *  Customizable button skins
 *  More display filters
