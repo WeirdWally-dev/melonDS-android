@@ -65,7 +65,15 @@ jobs:
           echo "MELONDS_KEY_ALIAS=melonds" >> local.properties
           echo "MELONDS_KEY_PASSWORD=$MELONDS_KEYSTORE_PASSWORD" >> local.properties
           chmod +x ./gradlew
-          ./gradlew :app:assembleGitHubNightlyRelease :lobby:assembleRelease
+          set +e
+          ./gradlew :app:assembleGitHubNightlyRelease :lobby:assembleRelease 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ $status -ne 0 ]; then
+            # Surface compiler and Gradle errors as annotations so they show up without opening the full log
+            grep -E "^e: |What went wrong|^> |error:|ERROR:" build.log | head -50 | while IFS= read -r line; do echo "::error::$line"; done
+            exit $status
+          fi
           cp lobby/build/outputs/apk/release/lobby-release.apk DS-Lobby.apk
           git tag -m "Nightly Release" -f -a nightly-release
           git push -f origin refs/tags/nightly-release
